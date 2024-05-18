@@ -34,17 +34,16 @@
       ctx.fillRect(x, y, 10, 10);
     }
 
-    canvas.addEventListener('pointerdown', (event) => {
+    document.addEventListener('pointerdown', (event) => {
       drawing = true;
+    })
+
+    document.addEventListener('pointerup', (event) => {
+      drawing = false;
+    });
+
+    canvas.addEventListener('pointerdown', (event) => {
       draw(event.offsetX, event.offsetY);
-    });
-
-    canvas.addEventListener('pointerup', (event) => {
-      drawing = false;
-    });
-
-    canvas.addEventListener('pointerleave', (event) => {
-      drawing = false;
     });
 
     canvas.addEventListener('pointermove', (event) => {
