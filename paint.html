@@ -31,7 +31,10 @@
     })
 
     const draw = (x, y) => {
-      ctx.fillRect(x, y, 10, 10);
+      ctx.beginPath();
+      ctx.moveTo(x + 7, y);
+      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     document.addEventListener('pointerdown', (event) => {
