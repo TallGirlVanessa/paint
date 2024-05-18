@@ -11,8 +11,21 @@
 
 <body>
   <div class="container mt-5">
-    <h1>Hello</h1>
+    <h1>Paint</h1>
+    <canvas id="tutorial" width="150" height="150" class="bg-white">
+      This is a canvas for drawing on, for Vanessa to learn the canvas element.
+    </canvas>
   </div>
+  <script type="module">
+    const canvas = document.getElementById("tutorial");
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgb(200 0 0)";
+    ctx.fillRect(10, 10, 50, 50);
+
+    ctx.fillStyle = "rgb(0 0 200 / 50%)";
+    ctx.fillRect(30, 30, 50, 50);
+
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
