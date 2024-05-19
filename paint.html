@@ -12,7 +12,7 @@
 <body>
   <div class="container mt-5">
     <h1>Paint</h1>
-    <canvas id="canvas" width="400" height="400" class="bg-white" style="touch-action: none">
+    <canvas id="canvas" width="400" height="400" class="bg-light" style="touch-action: none">
       This is a canvas for making drawings.
     </canvas>
 
@@ -23,18 +23,35 @@
   <script type="module">
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    const radius = 7;
     ctx.fillStyle = "rgb(200 0 0)";
+    ctx.strokeStyle = "rgb(200 0 0)";
+    ctx.lineWidth = radius * 2;
+    ctx.lineCap = "round";
     let drawing = false;
+    let previousPoint = null;
     const clear = document.getElementById('clear');
     clear.addEventListener('click', (event) => {
       ctx.clearRect(0, 0, 400, 400);
     })
 
-    const draw = (x, y) => {
+    const drawPoint = (x, y) => {
       ctx.beginPath();
-      ctx.moveTo(x + 7, y);
-      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.moveTo(x + radius, y);
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
+      previousPoint = [x, y];
+    }
+
+    const drawLine = (x, y) => {
+      if (!previousPoint) {
+        drawPoint(x, y);
+      }
+      ctx.beginPath();
+      ctx.moveTo(previousPoint[0], previousPoint[1]);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      previousPoint = [x, y];
     }
 
     document.addEventListener('pointerdown', (event) => {
@@ -46,14 +63,28 @@
     });
 
     canvas.addEventListener('pointerdown', (event) => {
-      draw(event.offsetX, event.offsetY);
+      drawPoint(event.offsetX, event.offsetY);
+    });
+
+    canvas.addEventListener('pointerenter', (event) => {
+      if (!drawing) {
+        return;
+      }
+      drawPoint(event.offsetX, event.offsetY);
+    });
+
+    canvas.addEventListener('pointerleave', (event) => {
+      if (drawing) {
+        drawLine(event.offsetX, event.offsetY);
+      }
+      previousPoint = null;
     });
 
     canvas.addEventListener('pointermove', (event) => {
       if (!drawing) {
         return;
       }
-      draw(event.offsetX, event.offsetY);
+      drawLine(event.offsetX, event.offsetY);
     })
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
